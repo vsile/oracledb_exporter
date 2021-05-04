@@ -247,7 +247,7 @@ func (e *Exporter) scrape(ch chan<- prometheus.Metric) {
 			}
 
 			if len(metric.MetricsDesc) == 0 {
-				log.Errorln("Error scraping for query", metric.Request, ". Did you forget to define metricsdesc  in your toml file?")
+				log.Errorln("Error scraping for query", metric.Request, ". Did you forget to define metricsdesc in your toml file?")
 				return
 			}
 
@@ -266,7 +266,7 @@ func (e *Exporter) scrape(ch chan<- prometheus.Metric) {
 				log.Errorln("Error scraping for", metric.Context, "_", metric.MetricsDesc, ":", err)
 				e.scrapeErrors.WithLabelValues(metric.Context).Inc()
 			} else {
-				log.Debugln("Successfully scrapped metric: ", metric.Context, metric.MetricsDesc, time.Since(scrapeStart))
+				log.Debugln("Successfully scraped metric:", metric.Context, metric.MetricsDesc, time.Since(scrapeStart))
 			}
 		}()
 	}
@@ -545,7 +545,7 @@ func main() {
 
 	// See more info on https://github.com/prometheus/client_golang/blob/master/prometheus/promhttp/http.go#L269
 	opts := promhttp.HandlerOpts{
-		ErrorLog: log.NewErrorLogger(),
+		ErrorLog:      log.NewErrorLogger(),
 		ErrorHandling: promhttp.ContinueOnError,
 	}
 	http.Handle(*metricPath, promhttp.HandlerFor(prometheus.DefaultGatherer, opts))
